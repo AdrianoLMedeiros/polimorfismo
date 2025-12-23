@@ -1,9 +1,12 @@
 package application;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 import java.util.Scanner;
 
 import entities.Employee;
+import entities.OutsourcedEmployee;
 
 public class Program {
 
@@ -14,15 +17,15 @@ public class Program {
 
 		int n; // number of employees
 
-		System.out.println("Enter the number of employees: "); // read number of employees
+		System.out.print("Enter the number of employees: "); // read number of employees
 		n = sc.nextInt();
 		sc.nextLine();
 		
-		Employee[] employees = new Employee[n]; // array of employees
+		List<Employee> list = new ArrayList<>(); // array of employees
 
-		for (int i = 0; i < n; i++) { // loop to read employee data
+		for (int i = 1; i <= n; i++) { // loop to read employee data
 			
-			System.out.println("Employee #" + (i+1) + " data: ");
+			System.out.println("Employee #" + i + " data: ");
 			System.out.print("Outsourced (y/n)? ");
 			char ch = sc.next().charAt(0);
 			sc.nextLine();
@@ -35,17 +38,20 @@ public class Program {
 			if (ch == 'y') {
 				System.out.print("Additional charge: ");
 				double additionalCharge = sc.nextDouble();
-				employees[i] = new entities.OutsourcedEmployee(name, hours, valuePerHour, additionalCharge);
+				Employee emp = new OutsourcedEmployee(name, hours, valuePerHour, additionalCharge);
+				list.add(emp);
 			} else {
-				employees[i] = new Employee(name, hours, valuePerHour);
+				Employee emp = new Employee(name, hours, valuePerHour);
+				list.add(emp);
 			}
 
 		}
 		
+		// print payments
 		System.out.println();
 		System.out.println("PAYMENTS: ");
-		for (int i = 0; i < n; i++) {
-			System.out.println(employees[i].getName() + " - $ " + String.format("%.2f", employees[i].payment()));
+		for (Employee emp : list) {
+			System.out.println(emp.getName() + " - $ " + String.format("%.2f", emp.payment()));
 		}	
 
 		sc.close();
